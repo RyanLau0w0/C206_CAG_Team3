@@ -59,7 +59,9 @@ public class C206_CaseStudy {
 				int input = Helper.readInt("Enter option: ");
 				
 				if (input == 1) {
-					C206_CaseStudy.addUser(userList);
+					Users u = inputUser();
+					C206_CaseStudy.addUser(userList , u);
+					System.out.println("User added");
 				} else if (input == 2) {
 					C206_CaseStudy.viewAllUsers(userList);
 				} else if (input == 3) {
@@ -81,7 +83,9 @@ public class C206_CaseStudy {
 				int input = Helper.readInt("Enter option: ");
 				
 				if (input == 1) {
-					C206_CaseStudy.addVendor(vendorList);
+					Vendors v = inputVendor();
+					C206_CaseStudy.addVendor(vendorList , v);
+					System.out.println("Vendor added");
 				} else if (input == 2) {
 					C206_CaseStudy.viewAllVendors(vendorList);
 				} else if (input == 3) {
@@ -103,7 +107,9 @@ public class C206_CaseStudy {
 				int input = Helper.readInt("Enter option: ");
 				
 				if (input == 1) {
-					C206_CaseStudy.addSchools(schoolList);
+					Schools s = inputSchool();
+					C206_CaseStudy.addSchool(schoolList , s);
+					System.out.println("School added");
 				} else if (input == 2) {
 					C206_CaseStudy.viewAllSchools(schoolList);
 				} else if (input == 3) {
@@ -125,7 +131,9 @@ public class C206_CaseStudy {
 				int input = Helper.readInt("Enter option: ");
 				
 				if (input == 1) {
-					C206_CaseStudy.addOrder(orderList);
+					Order o = inputOrder();
+					C206_CaseStudy.addOrder(orderList, o);
+					System.out.println("Order added");
 				} else if (input == 2) {
 					C206_CaseStudy.viewAllOrder(orderList);
 				} else if (input == 3) {
@@ -147,7 +155,9 @@ public class C206_CaseStudy {
 				int input = Helper.readInt("Enter option: ");
 				
 				if (input == 1) {
-					C206_CaseStudy.addMenu(menuList);
+					Menu m = inputMenu();
+					C206_CaseStudy.addMenu(menuList, m);
+					System.out.println("Menu added");
 				} else if (input == 2) {
 					C206_CaseStudy.viewAllMenu(menuList);
 				} else if (input == 3) {
@@ -169,7 +179,9 @@ public class C206_CaseStudy {
 				int input = Helper.readInt("Enter option: ");
 				
 				if (input == 1) {
-					C206_CaseStudy.addPayment(paymentList);
+					Payment p = inputPayment();
+					C206_CaseStudy.addPayment(paymentList, p);
+					System.out.println("Payment added");
 				} else if (input == 2) {
 					C206_CaseStudy.viewAllPayment(paymentList);
 				} else if (input == 3) {
@@ -254,21 +266,27 @@ public class C206_CaseStudy {
 		}
 		
     //Add User
-	public static void addUser(ArrayList<Users> userList) {
-			
-			String username = Helper.readString("Enter user's username");
-			String password = Helper.readString("Enter user's password");
-			
+	public static Users inputUser() {
+		String username = Helper.readString("Enter user's username: ");
+		String password = Helper.readString("Enter user's password: ");
+
+		Users u= new Users(username , password);
+		return u;
+		
+	}
+	public static void addUser(ArrayList<Users> userList , Users u) {
+			Users item;
 			for (int i = 0; i < userList.size(); i++) {
-				if (username.equalsIgnoreCase(userList.get(i).getUser_name())) {
+				item = userList.get(i);
+				if (item.getUser_name().equalsIgnoreCase(u.getUser_name())) {
 					System.out.println("Existing user with the same username found");
-					break;
-				} else {
-					userList.add(new Users(username, password));
-					System.out.println("User has been successfully added");
-					break;
+					return;
 				}
 			}
+			if (u.getUser_name().isEmpty() || u.getPassword().isEmpty()) {
+				return;
+			}
+			userList.add(u);
 			
 		}
 		
@@ -313,21 +331,27 @@ public class C206_CaseStudy {
 	
 	
 	//Add vendor.
-	public static void addVendor(ArrayList<Vendors> vendorList) {
-		
+	public static Vendors inputVendor() {
 		String username1 = Helper.readString("Enter vendor username");
 		String password1 = Helper.readString("Enter vendor password");
+
+		Vendors v= new Vendors(username1 , password1);
+		return v;
 		
+	}
+	public static void addVendor(ArrayList<Vendors> vendorList , Vendors v) {
+		Vendors item;
 		for (int i = 0; i < vendorList.size(); i++) {
-			if (username1.equalsIgnoreCase(vendorList.get(i).getVendor_name())) {
+			item = vendorList.get(i);
+			if (item.getVendor_name().equalsIgnoreCase(v.getVendor_name())) {
 				System.out.println("Existing vendor with the same username found");
-				break;
-			} else {
-				vendorList.add(new Vendors(username1, password1));
-				System.out.println("Vendor has been successfully added");
-				break;
+				return;
 			}
 		}
+		if (v.getVendor_name().isEmpty() || v.getPassword().isEmpty()) {
+			return;
+		}
+		vendorList.add(v);
 		
 	}
 	
@@ -372,17 +396,33 @@ public class C206_CaseStudy {
 	}
 	
 	//Add menu.
-    public static void addMenu (ArrayList<Menu> menuList) {
-		
-    	String Name = Helper.readString("Enter the item name: ");
-		int Price = Helper.readInt("Enter the item price: ");
-		int Quantity = Helper.readInt("Enter item quantity: ");
-		String Preference = Helper.readString("Enter item preference: ");
+	public static Menu inputMenu() {
+		String name = Helper.readString("Enter menu name: ");
+		int price = Helper.readInt("Enter menu price: ");
+		int qty = Helper.readInt("Enter menu quantity: ");
+		String preferenceType = Helper.readString("Enter preference type: ");
 		String vendorName = Helper.readString("Enter vendor name: ");
-		
-  				menuList.add(new Menu(Name, Price, Quantity, Preference, vendorName));
-  				System.out.println("Menu has been successfully added");
 
+ 
+
+		Menu m= new Menu(name , price, qty, preferenceType, vendorName);
+		return m;
+	}
+	
+    public static void addMenu (ArrayList<Menu> menuList, Menu m) {
+
+    	Menu item;
+    	for (int i = 0; i < menuList.size(); i++) {
+			item = menuList.get(i);
+			if (item.getName().equalsIgnoreCase(m.getName())) {
+				System.out.println("Existing menu with the same name found");
+				return;
+			}
+		}
+		if (m.getName().isEmpty()) {
+			return;
+		}
+		menuList.add(m);
 	}
 	
 	//Retrieve and view all payment.
@@ -423,14 +463,29 @@ public class C206_CaseStudy {
 	}
 	
 	//Add Payment.
-    public static void addPayment (ArrayList<Payment> paymentList) {
-		
-		String PaymentName = Helper.readString("Enter name of payment type to add: ");
-		
-  				paymentList.add(new Payment(PaymentName));
-  				System.out.println("Payment type has been successfully added");
-  	
+	public static Payment inputPayment() {
+		String paymentType = Helper.readString("Enter payment method: ");
 
+ 
+
+		Payment p= new Payment(paymentType);
+		return p;
+}
+
+	//Add Payment.
+    public static void addPayment(ArrayList<Payment> paymentList, Payment p) {
+		Payment item;
+		for (int i = 0; i < paymentList.size(); i++) {
+			item = paymentList.get(i);
+			if (item.getName().equalsIgnoreCase(p.getName())) {
+				System.out.println("Existing vendor with the same payment type found");
+				return;
+			}
+		}
+		if (p.getName().isEmpty()) {
+			return;
+		}
+		paymentList.add(p);
 	}
 	
 	//Retrieve and view all orders.
@@ -471,17 +526,37 @@ public class C206_CaseStudy {
 	}
 	
 	//Add Orders.
-    public static void addOrder (ArrayList<Order> orderList) {
-		
-		String orderVendor = Helper.readString("Which vendor was ordered from: ");
-		String orderUser = Helper.readString("Who ordered the item: ");
-		String orderItem = Helper.readString("Which menu item has been ordered: ");
-		int orderCost = Helper.readInt("Total price of the order: ");
-		int orderItemQuantity = Helper.readInt("Quantity of item ordered: ");
-		
-  				orderList.add(new Order(orderList.size()+1, orderUser, orderVendor, orderItem, orderItemQuantity, orderCost));
-  				System.out.println("Order has been successfully added");
+	public static Order inputOrder() {
+		int orderNumber = Helper.readInt("Enter order number: ");
+		String username = Helper.readString("Enter order name: ");
+		String vendorName = Helper.readString("Enter vendor name: ");
+		String orderItem = Helper.readString("Enter order item: ");
+		int orderQty = Helper.readInt("Enter order quantity: ");
+		int price = Helper.readInt("Enter order price: ");
 
+ 
+
+		Order o= new Order(orderNumber , username, vendorName, orderItem, orderQty, price);
+		return o;
+
+ 
+
+}
+
+	//Add Orders.
+    public static void addOrder (ArrayList<Order> orderList, Order o) {
+		Order item;
+		for (int i = 0; i < orderList.size(); i++) {
+			item = orderList.get(i);
+			if (item.getOrder_item().equalsIgnoreCase(o.getOrder_item())) {
+				System.out.println("Existing order with the same order item found");
+				return;
+			}
+		}
+		if (o.getOrder_item().isEmpty()) {
+			return;
+		}
+		orderList.add(o);
 	}
 	
 	//Retrieve and view all schools.
@@ -521,24 +596,29 @@ public class C206_CaseStudy {
 		
 	}
 	
-	    //Add Schools.
-	    public static void addSchools (ArrayList<Schools> schoolList) {
-			
-			String schoolName = Helper.readString("Enter name of school to add: ");
-			
+	//Add Schools.
+	public static Schools inputSchool() {
+		
+		String schoolName = Helper.readString("Enter name of school to add: ");
+
+		Schools s= new Schools(schoolName);
+		return s;
+		
+	}
+	    public static void addSchool(ArrayList<Schools> schoolList , Schools s) {
+			Schools item;
 			    for (int i = 0; i < schoolList.size(); i++) {
-			    	
-	  			if (schoolName.equalsIgnoreCase(schoolList.get(i).getSchool())) {
+		    	item = schoolList.get(i);	
+	  			if (item.getSchool().equalsIgnoreCase(s.getSchool())) {
 	  				System.out.println("Existing school with the same name found");
-	  				break;
+	  				return;
 	  				
-	  			} else {
-	  				schoolList.add(new Schools(schoolName));
-	  				System.out.println("School has been successfully added");
-	  				break;
 	  			}
 	  		}
-			
+			if (s.getSchool().isEmpty()) {
+				return;
+			}
+			schoolList.add(s);
 		}
 	    
 	    
